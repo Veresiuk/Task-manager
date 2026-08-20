@@ -1,25 +1,9 @@
-#include "TaskManager.h"
+#include "../include/TaskManager.h"
+#include "../include/DateTime.h"
+
 #include <iostream>
-#include <chrono>
-#include <ctime>
-#include <iomanip>
-#include <sstream>
 #include <fstream>
 
-std::string getCurrentDateTime()
-{
-    auto now = std::chrono::system_clock::now();
-
-    std::time_t currentTime = std::chrono::system_clock::to_time_t(now);
-
-    std::tm localTime;
-    localtime_s(&localTime, &currentTime);
-
-    std::stringstream ss;
-    ss << std::put_time(&localTime, "%Y-%m-%d %H:%M:%S");
-
-    return ss.str();
-}
 
 TaskManager::TaskManager(){
 
@@ -41,6 +25,7 @@ void TaskManager::addTask(const std::string& description) {
 
     tasks.push_back(newTask);
     saveTasks();
+    std::cout << "\nTask added successfully!\n";
 }
 
 void TaskManager::updateTask(int id, const std::string& description) {
@@ -51,6 +36,13 @@ void TaskManager::updateTask(int id, const std::string& description) {
             task.description = description;
             task.updatedAt = getCurrentDateTime();
             saveTasks();
+
+            std::cout << "\nTask updated successfully!\n";
+            std::cout << "ID:          " << task.id << std::endl;
+            std::cout << "Description: " << task.description << std::endl;
+            std::cout << "Status:      " << task.status << std::endl;
+            std::cout << "Created:     " << task.createdAt << std::endl;
+            std::cout << "Updated:     " << task.updatedAt << std::endl;
 
             return;
         }
@@ -67,6 +59,8 @@ void TaskManager::deleteTask(int id) {
 
                 tasks.erase(it);
                 saveTasks();
+
+                std::cout << "\nTask deleted successfully!\n";
 
                 return;
             }
@@ -87,6 +81,13 @@ void TaskManager::statusTask(int id, const std::string& status) {
             task.updatedAt = getCurrentDateTime();
             saveTasks();
 
+            std::cout << "\nTask status updated successfully!\n";
+            std::cout << "ID:          " << task.id << std::endl;
+            std::cout << "Description: " << task.description << std::endl;
+            std::cout << "Status:      " << task.status << std::endl;
+            std::cout << "Created:     " << task.createdAt << std::endl;
+            std::cout << "Updated:     " << task.updatedAt << std::endl;
+
             return;
         }
     }
@@ -106,67 +107,105 @@ void TaskManager::listTask() {
 
     for (const Task& task : tasks) {
 
-        std::cout << "ID:" << task.id << std::endl;
-        std::cout << "Description:" << task.description << std::endl;
-        std::cout << "Status:" << task.status << std::endl;
-        std::cout << "Created:" << task.createdAt << std::endl;
-        std::cout << "Update:" << task.updatedAt << std::endl;
-
+        std::cout << "\n----------------------------------------\n";
+        std::cout << "ID:          " << task.id << std::endl;
+        std::cout << "Description: " << task.description << std::endl;
+        std::cout << "Status:      " << task.status << std::endl;
+        std::cout << "Created:     " << task.createdAt << std::endl;
+        std::cout << "Updated:     " << task.updatedAt << std::endl;
+        std::cout << "----------------------------------------\n";
     }
 
 }
 
 void TaskManager::doneTask() {
 
+    bool found = false;
+
     for (const Task& task : tasks) {
 
         if (task.status == "done") {
-            std::cout << "ID:" << task.id << std::endl;
-            std::cout << "Description:" << task.description << std::endl;
-            std::cout << "Status:" << task.status << std::endl;
-            std::cout << "Created:" << task.createdAt << std::endl;
-            std::cout << "Update:" << task.updatedAt << std::endl;
+
+             found = true;
+
+            std::cout << "\n----------------------------------------\n";
+            std::cout << "ID:          " << task.id << std::endl;
+            std::cout << "Description: " << task.description << std::endl;
+            std::cout << "Status:      " << task.status << std::endl;
+            std::cout << "Created:     " << task.createdAt << std::endl;
+            std::cout << "Updated:     " << task.updatedAt << std::endl;
+            std::cout << "----------------------------------------\n";
 
         }
+
     }
 
+        if (!found) {
+            std::cout << "\nNo completed tasks found!\n";
+
+        }
+
+    
 }
 
 void TaskManager::todoTask() {
 
+    bool found = false;
+
+
     for (const Task& task : tasks) {
 
         if (task.status == "todo") {
-            std::cout << "ID:" << task.id << std::endl;
-            std::cout << "Description:" << task.description << std::endl;
-            std::cout << "Status:" << task.status << std::endl;
-            std::cout << "Created:" << task.createdAt << std::endl;
-            std::cout << "Update:" << task.updatedAt << std::endl;
+            
+            found = true;
+
+            std::cout << "\n----------------------------------------\n";
+            std::cout << "ID:          " << task.id << std::endl;
+            std::cout << "Description: " << task.description << std::endl;
+            std::cout << "Status:      " << task.status << std::endl;
+            std::cout << "Created:     " << task.createdAt << std::endl;
+            std::cout << "Updated:     " << task.updatedAt << std::endl;
+            std::cout << "----------------------------------------\n";
 
         }
+    }
+
+    if (!found) {
+        std::cout << "\nNo todo tasks found!\n";
     }
 
 }
 
 void TaskManager::progressTask() {
 
+    bool found = false;
+
     for (const Task& task : tasks) {
 
         if (task.status == "in-progress"){
-            std::cout << "ID:" << task.id << std::endl;
-            std::cout << "Description:" << task.description << std::endl;
-            std::cout << "Status:" << task.status << std::endl;
-            std::cout << "Created:" << task.createdAt << std::endl;
-            std::cout << "Update:" << task.updatedAt << std::endl;
+            
+            found = true;
 
+            std::cout << "\n----------------------------------------\n";
+            std::cout << "ID:          " << task.id << std::endl;
+            std::cout << "Description: " << task.description << std::endl;
+            std::cout << "Status:      " << task.status << std::endl;
+            std::cout << "Created:     " << task.createdAt << std::endl;
+            std::cout << "Updated:     " << task.updatedAt << std::endl;
+            std::cout << "----------------------------------------\n";
         }
     }
+
+    if (!found) {
+        std::cout << "\nNo tasks in progress found!\n";
+
+}
 
 }
 
 void TaskManager::saveTasks() const{
     
-    std::ofstream file("tasks.json");
+    std::ofstream file("data/tasks.json");
 
     file << "[\n";
 
@@ -191,7 +230,7 @@ void TaskManager::saveTasks() const{
 
 void TaskManager::loadTasks() {
 
-    std::ifstream file("tasks.json");
+    std::ifstream file("data/tasks.json");
 
     if (!file.is_open()) {
 
